@@ -2,6 +2,8 @@
 
 **Your AI closet & stylist.** Catalog every piece you own, try outfits on your avatar (or a photo of you), and get an honest AI Fit Score with tips that actually make you look better.
 
+**Live:** [mirra-virid.vercel.app](https://mirra-virid.vercel.app/)
+
 Built with Next.js 15, Supabase, Groq vision models, remove.bg and Open-Meteo — everything runs on free tiers.
 
 ## Features

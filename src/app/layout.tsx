@@ -15,6 +15,16 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://mirra-virid.vercel.app"),
+  openGraph: {
+    title: "Mirra — Your AI closet & stylist",
+    description: "Catalog your closet, try outfits on your avatar, and get an honest AI Fit Score.",
+    url: "/",
+    siteName: "Mirra",
+    images: [{ url: "/icon-512.png", width: 512, height: 512, alt: "Mirra" }],
+    type: "website",
+  },
+  twitter: { card: "summary", title: "Mirra — Your AI closet & stylist" },
   title: {
     default: "Mirra — Your AI closet & stylist",
     template: "%s · Mirra",
