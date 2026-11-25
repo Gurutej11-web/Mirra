@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 /** Routes that require a signed-in user. */
 const PROTECTED = [
+  "/home",
   "/closet",
   "/try-on",
   "/fit-check",
@@ -12,6 +13,7 @@ const PROTECTED = [
   "/shop",
   "/insights",
   "/profile",
+  "/tools",
   "/onboarding",
 ];
 
@@ -60,7 +62,7 @@ export async function updateSession(request: NextRequest) {
 
   if (user && matches(pathname, AUTH_PAGES)) {
     const home = request.nextUrl.clone();
-    home.pathname = "/closet";
+    home.pathname = "/home";
     home.search = "";
     return NextResponse.redirect(home);
   }

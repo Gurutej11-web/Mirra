@@ -1,4 +1,4 @@
-import {
+﻿import {
   ArrowRight,
   Camera,
   Link2,
@@ -51,7 +51,7 @@ const features = [
   {
     icon: MessageCircle,
     title: "AI stylist chat",
-    body: "“What do I wear to a fall wedding?” Three outfits from your own closet.",
+    body: "â€œWhat do I wear to a fall wedding?â€ Three outfits from your own closet.",
   },
   {
     icon: CalendarDays,
@@ -93,7 +93,7 @@ export default function Home() {
           <ButtonLink href="/login" size="sm" variant="secondary">
             Sign in
           </ButtonLink>
-          <ButtonLink href="/closet" size="sm">
+          <ButtonLink href="/home" size="sm">
             Open app
           </ButtonLink>
         </nav>
@@ -114,7 +114,7 @@ export default function Home() {
             honest Fit Score with tips that actually help.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
-            <ButtonLink href="/closet" size="lg">
+            <ButtonLink href="/home" size="lg">
               Build my closet <ArrowRight className="size-4" />
             </ButtonLink>
             <ButtonLink href="#fit-check" size="lg" variant="secondary">
@@ -185,13 +185,13 @@ export default function Home() {
           </p>
           <ul className="mt-6 space-y-2 text-sm text-fg-muted">
             <li className="flex gap-2">
-              <span className="text-accent">✦</span> Feedback on clothes, colors and fit, never your body
+              <span className="text-accent">âœ¦</span> Feedback on clothes, colors and fit, never your body
             </li>
             <li className="flex gap-2">
-              <span className="text-accent">✦</span> Track your score as your style levels up
+              <span className="text-accent">âœ¦</span> Track your score as your style levels up
             </li>
             <li className="flex gap-2">
-              <span className="text-accent">✦</span> Optional Roast Mode for brutally funny reviews
+              <span className="text-accent">âœ¦</span> Optional Roast Mode for brutally funny reviews
             </li>
           </ul>
         </Reveal>
@@ -214,7 +214,7 @@ export default function Home() {
               </div>
               <div>
                 <p className="text-sm text-fg-muted">
-                  Example: <span className="text-fg">Deep Autumn</span> · warm undertone
+                  Example: <span className="text-fg">Deep Autumn</span> Â· warm undertone
                 </p>
                 <div className="mt-4 flex gap-2">
                   {palette.map((c) => (
@@ -262,7 +262,7 @@ export default function Home() {
             Stop staring at your closet. <span className="text-gradient italic">Start styling it.</span>
           </h2>
           <div className="mt-9 flex justify-center">
-            <ButtonLink href="/closet" size="lg">
+            <ButtonLink href="/home" size="lg">
               Get started free <ArrowRight className="size-4" />
             </ButtonLink>
           </div>
@@ -272,7 +272,7 @@ export default function Home() {
       <footer className="relative z-10 border-t border-border">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-fg-subtle md:flex-row md:px-8">
           <Logo />
-          <p>© {new Date().getFullYear()} Mirra. Built by Gurutej Bandla.</p>
+          <p>Â© {new Date().getFullYear()} Mirra. Built by Gurutej Bandla.</p>
         </div>
       </footer>
     </div>

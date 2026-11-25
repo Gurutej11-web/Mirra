@@ -11,7 +11,7 @@ type Mode = "signin" | "signup";
 
 /** Only allow redirects to paths inside this site. */
 function safeNext(next: string | null) {
-  return next && next.startsWith("/") && !next.startsWith("//") ? next : "/closet";
+  return next && next.startsWith("/") && !next.startsWith("//") ? next : "/home";
 }
 
 const inputClass =
