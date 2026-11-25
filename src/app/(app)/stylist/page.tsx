@@ -1,16 +1,26 @@
-import { MessageCircle } from "lucide-react";
-import { ComingSoon } from "@/components/shell/coming-soon";
+import { getSession } from "@/lib/session";
+import { getCloset } from "@/lib/storage";
+import { StylistChat } from "@/components/stylist/chat";
+import type { ChatMessage } from "@/lib/types";
 
-export const metadata = { title: "Your stylist" };
+export const metadata = { title: "Stylist" };
 
-export default function StylistPage() {
+export default async function StylistPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
+  const { q } = await searchParams;
+  const { supabase, profile, user } = await getSession();
+  const [{ items }, { data }] = await Promise.all([
+    getCloset(supabase, { includeArchived: true }),
+    supabase.from("chat_messages").select("id, role, content, attached_outfits, created_at").order("created_at", { ascending: false }).limit(60),
+  ]);
+
   return (
-    <ComingSoon
-      icon={MessageCircle}
-      title="Your stylist"
-      description="Chat with an AI that knows every piece in your closet."
-      phase={9}
-      bullets={["Outfits for any occasion from what you own","Shown right on your avatar","\"What goes with this?\" for new buys","Capsule and trip planning"]}
-    />
+    <section className="mx-auto max-w-3xl">
+      <StylistChat
+        initial={((data ?? []) as ChatMessage[]).reverse()}
+        items={items.map((i) => ({ id: i.id, name: i.name, image_url: i.image_url, color: i.colors[0] ?? null }))}
+        firstName={profile?.display_name ?? user.email?.split("@")[0] ?? "there"}
+        prefill={q?.slice(0, 1500)}
+      />
+    </section>
   );
 }
