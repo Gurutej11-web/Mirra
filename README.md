@@ -7,7 +7,7 @@
 | Phase | Feature | Status |
 |---|---|---|
 | 1 | Project setup, design system, app shell, landing page | ✅ |
-| 2 | Auth & database (Supabase) | ⏳ |
+| 2 | Auth & database (Supabase) | ✅ |
 | 3 | Onboarding: style quiz, fit preferences, Style DNA | ⏳ |
 | 4 | Closet: add by photo, background removal, AI auto-tagging | ⏳ |
 | 5 | Add from outfit photo & product link | ⏳ |
@@ -30,6 +30,7 @@ Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · Motion · Supabase �
 ```bash
 npm install
 cp .env.example .env.local   # then fill in your keys
+npm run db:migrate           # creates tables, security rules and photo storage
 npm run dev
 ```
 

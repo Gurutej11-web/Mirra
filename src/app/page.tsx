@@ -90,6 +90,9 @@ export default function Home() {
           <a href="#fit-check" className="hidden px-3 text-sm text-fg-muted hover:text-fg sm:block">
             Fit Check
           </a>
+          <ButtonLink href="/login" size="sm" variant="secondary">
+            Sign in
+          </ButtonLink>
           <ButtonLink href="/closet" size="sm">
             Open app
           </ButtonLink>
