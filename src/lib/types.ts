@@ -104,6 +104,8 @@ export type Profile = {
   units: "metric" | "imperial";
   hide_scores: boolean;
   theme: "dark" | "light" | "system";
+  // added in 0003
+  monthly_budget: number | null;
 };
 
 export type Outfit = {

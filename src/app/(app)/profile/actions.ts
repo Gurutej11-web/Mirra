@@ -77,6 +77,16 @@ export async function saveSettings(patch: z.infer<typeof settingsSchema>) {
   return { ok: true };
 }
 
+export async function saveBudget(amount: number | null) {
+  const p = z.number().min(0).max(100000).nullable().safeParse(amount);
+  if (!p.success) return { error: "Invalid amount." };
+  const { supabase, user } = await ctx();
+  const { error } = await supabase.from("profiles").update({ monthly_budget: p.data }).eq("id", user.id);
+  if (error) return { error: error.message };
+  revalidatePath("/insights");
+  return { ok: true };
+}
+
 export async function setTryonPhoto(path: string | null) {
   const { supabase, user } = await ctx();
   if (path && !path.startsWith(`${user.id}/`)) return { error: "Invalid path." };
