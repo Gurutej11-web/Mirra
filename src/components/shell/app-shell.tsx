@@ -10,7 +10,7 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function AppShell({ children }: { children: React.ReactNode }) {
+export function AppShell({ children, userName }: { children: React.ReactNode; userName: string }) {
   const pathname = usePathname();
 
   return (
@@ -39,7 +39,15 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             );
           })}
         </nav>
-        <p className="px-3 text-xs text-fg-subtle">Mirra · early preview</p>
+        <Link
+          href="/profile"
+          className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-fg-muted hover:bg-surface hover:text-fg"
+        >
+          <span className="grid size-8 place-items-center rounded-full bg-accent font-medium text-accent-fg">
+            {userName.charAt(0).toUpperCase()}
+          </span>
+          <span className="truncate">{userName}</span>
+        </Link>
       </aside>
 
       {/* Mobile top bar */}
