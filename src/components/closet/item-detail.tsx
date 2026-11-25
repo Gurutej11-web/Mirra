@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Archive, ArchiveRestore, Check, Droplets, ExternalLink, Heart, Loader2, Pencil, Shirt, Sparkles, Trash2, WashingMachine } from "lucide-react";
 import { ItemImage } from "@/components/closet/item-image";
 import { ItemForm } from "@/components/closet/item-form";
+import { CareGuide } from "@/components/closet/care-guide";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/toast";
@@ -252,6 +253,8 @@ export function ItemDetail({
             )}
           </dl>
         )}
+
+        {!editing && <CareGuide itemId={item.id} notes={item.notes} />}
 
         {/* goes with */}
         {pairs.length > 0 && (

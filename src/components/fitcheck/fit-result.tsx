@@ -7,6 +7,7 @@ import { Flame, Heart, MessageCircle, Palette, Repeat, Ruler, Scale, Shirt, Spar
 import { BreakdownBars, ScoreRing } from "@/components/fitcheck/score-ring";
 import { ItemImage } from "@/components/closet/item-image";
 import { ShareCardButton } from "@/components/share/share-card-button";
+import { CaptionGenerator } from "@/components/fitcheck/caption-generator";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { deleteFitCheck } from "@/app/(app)/fit-check/actions";
@@ -124,6 +125,8 @@ export function FitResult({
             <Shirt className="size-4" /> Add these pieces to closet
           </Link>
         </div>
+
+        <CaptionGenerator fitCheckId={check.id} />
 
         <div className="mt-12 border-t border-border pt-6">
           <Button

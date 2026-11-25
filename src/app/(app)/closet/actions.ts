@@ -83,6 +83,15 @@ export async function patchItems(ids: string[], patch: z.infer<typeof patchSchem
   return { ok: true };
 }
 
+export async function saveNotes(id: string, notes: string) {
+  if (!uuid.safeParse(id).success || notes.length > 500) return { error: "Invalid notes." };
+  const { supabase } = await ctx();
+  const { error } = await supabase.from("items").update({ notes: notes || null }).eq("id", id);
+  if (error) return { error: error.message };
+  revalidatePath(`/closet/${id}`);
+  return { ok: true };
+}
+
 export async function addTags(ids: string[], tags: string[]) {
   const cleaned = tags.map((t) => t.trim().toLowerCase().slice(0, 24)).filter(Boolean).slice(0, 5);
   if (!cleaned.length || !z.array(uuid).min(1).max(500).safeParse(ids).success) return { error: "Invalid tags." };

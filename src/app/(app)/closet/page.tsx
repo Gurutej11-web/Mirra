@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Droplets, Plus } from "lucide-react";
 import { getSession } from "@/lib/session";
 import { getCloset } from "@/lib/storage";
 import { ButtonLink } from "@/components/ui/button";
@@ -12,6 +12,7 @@ export default async function ClosetPage({ searchParams }: { searchParams: Promi
   const { welcome } = await searchParams;
 
   const value = items.reduce((s, i) => s + (i.price ?? 0), 0);
+  const dirty = items.filter((i) => i.status !== "clean").length;
 
   return (
     <section>
@@ -28,9 +29,16 @@ export default async function ClosetPage({ searchParams }: { searchParams: Promi
             {value > 0 && ` · $${Math.round(value).toLocaleString()} total value`}
           </p>
         </div>
-        <ButtonLink href="/closet/add">
-          <Plus className="size-4" /> Add items
-        </ButtonLink>
+        <div className="flex gap-2">
+          {dirty > 0 && (
+            <ButtonLink href="/closet/laundry" variant="secondary">
+              <Droplets className="size-4" /> Laundry {dirty}
+            </ButtonLink>
+          )}
+          <ButtonLink href="/closet/add">
+            <Plus className="size-4" /> Add items
+          </ButtonLink>
+        </div>
       </div>
       <ClosetGrid items={items} />
     </section>

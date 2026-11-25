@@ -16,6 +16,7 @@ import {
   Shuffle,
   Trash2,
   User,
+  Wand2,
   X,
 } from "lucide-react";
 import { Avatar, BODY_SHAPES, DEFAULT_AVATAR, HAIR_COLORS, HAIR_STYLES, SKIN_TONES } from "@/components/tryon/avatar";
@@ -138,6 +139,46 @@ export function Studio({
     const s: Selection = {};
     for (const it of best.items) s[it.category] = it.id;
     setSel(s);
+  }
+
+  const [completing, setCompleting] = useState(false);
+  async function completeLook() {
+    if (!chosen.length) return toast("Pick at least one piece, then let Mirra finish the look.", { tone: "info" });
+    setCompleting(true);
+    try {
+      const res = await fetch("/api/tools/complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ itemIds: chosen.map((c) => c.id), occasion: occasion || undefined }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? "Couldn't complete the look.");
+      const { add, remove, why } = json as { add: string[]; remove: string[]; why: string };
+      if (!add.length && !remove.length) {
+        toast("This look is already complete.", { tone: "info" });
+        return;
+      }
+      setSel((s) => {
+        const n: Selection = { ...s };
+        for (const id of remove) {
+          const it = byId.get(id);
+          if (it && n[it.category] === id) delete n[it.category];
+        }
+        for (const id of add) {
+          const it = byId.get(id);
+          if (!it) continue;
+          n[it.category] = id;
+          if (it.category === "dress") { delete n.top; delete n.bottom; }
+          if (it.category === "top" || it.category === "bottom") delete n.dress;
+        }
+        return n;
+      });
+      toast(why || "Look completed", { tone: "info", duration: 6000 });
+    } catch (e) {
+      toast((e as Error).message, { tone: "error" });
+    } finally {
+      setCompleting(false);
+    }
   }
 
   function updateLayer(id: string, patch: Partial<Layer>) {
@@ -317,6 +358,9 @@ export function Studio({
 
         <div className="mt-3 flex flex-wrap gap-2">
           <Button onClick={shuffle} size="sm"><Shuffle className="size-4" /> Shuffle</Button>
+          <Button onClick={completeLook} size="sm" variant="secondary" disabled={completing}>
+            {completing ? <Loader2 className="size-4 animate-spin" /> : <Wand2 className="size-4" />} Complete the look
+          </Button>
           <Button onClick={() => setPanel(panel === "save" ? "none" : "save")} size="sm" variant="secondary" disabled={!chosen.length}><Save className="size-4" /> Save</Button>
           <Button onClick={() => (compareA ? setCompareA(null) : setCompareA({ sel, layout }))} size="sm" variant="secondary" disabled={!chosen.length && !compareA}>
             <Columns2 className="size-4" /> {compareA ? "End compare" : "Compare"}
