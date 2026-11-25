@@ -68,13 +68,13 @@ async function pool<T>(items: T[], n: number, fn: (t: T) => Promise<void>) {
   }));
 }
 
-export function AddItem({ userId, existing }: { userId: string; existing: Existing[] }) {
+export function AddItem({ userId, existing, initialUrl }: { userId: string; existing: Existing[]; initialUrl?: string }) {
   const router = useRouter();
   const toast = useToast();
-  const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("photo");
+  const [tab, setTab] = useState<(typeof TABS)[number]["id"]>(initialUrl ? "link" : "photo");
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [busy, setBusy] = useState(false);
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState(initialUrl ?? "");
   const [error, setError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const cameraRef = useRef<HTMLInputElement>(null);

@@ -6,7 +6,8 @@ import { AddItem } from "@/components/closet/add-item";
 
 export const metadata = { title: "Add to closet" };
 
-export default async function AddItemPage() {
+export default async function AddItemPage({ searchParams }: { searchParams: Promise<{ url?: string }> }) {
+  const { url } = await searchParams;
   const { supabase, user } = await getSession();
   const { items } = await getCloset(supabase);
 
@@ -20,6 +21,7 @@ export default async function AddItemPage() {
       <div className="mt-8">
         <AddItem
           userId={user.id}
+          initialUrl={url && /^https?:\/\//.test(url) ? url.slice(0, 1000) : undefined}
           existing={items.map((i) => ({ id: i.id, name: i.name, category: i.category, colors: i.colors, image_url: i.image_url }))}
         />
       </div>
