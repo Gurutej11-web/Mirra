@@ -5,7 +5,29 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import pg from "pg";
 
-const url = process.env.SUPABASE_DB_URL;
+/** Percent-encode the password so characters like # @ / ? don't break the URL. */
+function safeUrl(raw) {
+  const m = raw?.trim().match(/^(postgres(?:ql)?:\/\/)([^:/]+):(.*)@([^@/]+(?:\/.*)?)$/);
+  if (!m) return raw?.trim();
+  const [, scheme, user, pass, rest] = m;
+  const encoded = /%[0-9a-f]{2}/i.test(pass) ? pass : encodeURIComponent(pass);
+  return `${scheme}${user}:${encoded}@${rest}`;
+}
+
+/** Read SUPABASE_DB_URL straight from .env.local — env parsers treat "#" in passwords as a comment. */
+async function readDbUrl() {
+  try {
+    const text = await readFile(".env.local", "utf8");
+    const line = text.split(/\r?\n/).find((l) => l.startsWith("SUPABASE_DB_URL="));
+    const v = line?.slice("SUPABASE_DB_URL=".length).trim().replace(/^(["'])(.*)\1$/, "$2");
+    if (v) return v;
+  } catch {
+    /* fall back to the environment (e.g. CI) */
+  }
+  return process.env.SUPABASE_DB_URL;
+}
+
+const url = safeUrl(await readDbUrl());
 if (!url) {
   console.error("✗ SUPABASE_DB_URL is empty in .env.local (Connect → Session pooler).");
   process.exit(1);
